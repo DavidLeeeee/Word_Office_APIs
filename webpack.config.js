@@ -3,6 +3,11 @@
 const devCerts = require("office-addin-dev-certs");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const path = require("path");
+  
+const dotenv = require("dotenv");
+const env = dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 const urlDev = "https://localhost:3000/";
 const urlProd = "https://www.contoso.com/"; // CHANGE THIS TO YOUR PRODUCTION DEPLOYMENT LOCATION
@@ -51,6 +56,10 @@ module.exports = async (env, options) => {
       ],
     },
     plugins: [
+      new webpack.DefinePlugin({
+        "process.env.OPENAI_KEY": JSON.stringify(process.env.OPENAI_KEY || ""),
+        "process.env.NODE_ENV": JSON.stringify(dev ? "development" : "production"),
+      }),
       new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
@@ -90,6 +99,17 @@ module.exports = async (env, options) => {
         options: env.WEBPACK_BUILD || options.https !== undefined ? options.https : await getHttpsOptions(),
       },
       port: process.env.npm_package_config_dev_server_port || 3000,
+      proxy: [
+        {
+          context: ["/api/audit"],
+          target: "https://chat.k-armor.ai:8082",
+          changeOrigin: true,
+          secure: false,
+          pathRewrite: {
+            "^/api/audit": "/audit",
+          },
+        },
+      ],
     },
   };
 

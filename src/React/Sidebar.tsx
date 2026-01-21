@@ -3,18 +3,18 @@ import React, { useState } from "react";
 // 공용 사이드바 항목
 export enum SidebarType {
   Chat = "채팅",
-  Audit = "검사",
-  Comment = "주석",
 }
 
 // Word 사이드바 항목
 export enum WordSidebarType {
-  WordDemo = "Word 데모",
+  Audit = "검사",
+  Comment = "주석",
 }
 
 // Excel 사이드바 항목
 export enum ExcelSidebarType {
-  ExcelDemo = "Excel 데모",
+  Audit = "검사",
+  Comment = "주석",
 }
 
 type SidebarItem = SidebarType | WordSidebarType | ExcelSidebarType;
@@ -37,10 +37,10 @@ const Sidebar: React.FC<SidebarProps> = ({ commonItems, hostItems, onItemSelect,
       width: "70px", 
       padding: "12px 6px",
       background: "linear-gradient(180deg, #1a1a2e 0%, #16213e 100%)",
-      height: "100%",
+      height: "100vh",
       overflowY: "auto",
-      zIndex: 1000,
-      boxShadow: "-2px 0 20px rgba(0, 0, 0, 0.3)"
+      boxShadow: "-2px 0 20px rgba(0, 0, 0, 0.3)",
+      zIndex: 1000
     }}>
       {commonItems.length > 0 && (
         <div style={{ marginBottom: "20px" }}>
