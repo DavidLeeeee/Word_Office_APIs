@@ -9,6 +9,7 @@ export enum SidebarType {
 export enum WordSidebarType {
   Audit = "검사",
   Comment = "주석",
+  Edit = "수정",
 }
 
 // Excel 사이드바 항목
