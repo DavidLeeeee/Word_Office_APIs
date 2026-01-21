@@ -7,17 +7,23 @@
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "../React/App";
+import WordApp from "../React/Word/App";
+import ExcelApp from "../React/Excel/App";
 
 Office.onReady((info) => {
-  if (info.host === Office.HostType.Word) {
-    document.getElementById("sideload-msg").style.display = "none";
-    document.getElementById("app-body").style.display = "flex";
+  document.getElementById("sideload-msg").style.display = "none";
+  document.getElementById("app-body").style.display = "flex";
+  
+  const container = document.getElementById("react-app");
+  if (container) {
+    const root = createRoot(container);
     
-    const container = document.getElementById("react-app");
-    if (container) {
-      const root = createRoot(container);
-      root.render(React.createElement(App));
+    if (info.host === Office.HostType.Word) {
+      root.render(React.createElement(WordApp));
+    } else if (info.host === Office.HostType.Excel) {
+      root.render(React.createElement(ExcelApp));
+    } else {
+      root.render(React.createElement("div", null, `지원하지 않는 호스트: ${info.host}`));
     }
   }
 });
