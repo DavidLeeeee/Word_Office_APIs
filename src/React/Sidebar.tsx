@@ -1,23 +1,148 @@
-// 재사용 가능한 Sidebar 컴포넌트를 만든다.
-
-// Word, Excel에서 해당 Sidebar를 불러 렌더링을 한다.
+import React, { useState } from "react";
 
 // 공용 사이드바 항목
-enum SidebarType {
-    Chat = "채팅",
-    Audit = "검사",
-    Comment = "주석",
+export enum SidebarType {
+  Chat = "채팅",
+  Audit = "검사",
+  Comment = "주석",
 }
 
 // Word 사이드바 항목
-enum WordSidebarType {
-    WordDemo = "Word 데모",
+export enum WordSidebarType {
+  WordDemo = "Word 데모",
 }
 
 // Excel 사이드바 항목
-enum ExcelSidebarType {
-    ExcelDemo = "Excel 데모",
+export enum ExcelSidebarType {
+  ExcelDemo = "Excel 데모",
 }
 
-// 위 enum들에 대해서, 각각의 App.tsx에서 parameter로 받을 수 있다.
-// Sidebar.tsx에서는 해당 parameter에 따라서 사이드바를 표시해주고, 메인 화면에 항목별 렌더링을 유도하는 역할을 한다.
+type SidebarItem = SidebarType | WordSidebarType | ExcelSidebarType;
+
+interface SidebarProps {
+  commonItems: SidebarType[];
+  hostItems: SidebarItem[];
+  onItemSelect: (item: SidebarItem) => void;
+  selectedItem: SidebarItem | null;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ commonItems, hostItems, onItemSelect, selectedItem }) => {
+  const isSelected = (item: SidebarItem) => selectedItem === item;
+
+  return (
+    <div style={{ 
+      position: "fixed",
+      right: 0,
+      top: 0,
+      width: "70px", 
+      padding: "12px 6px",
+      background: "linear-gradient(180deg, #1a1a2e 0%, #16213e 100%)",
+      height: "100%",
+      overflowY: "auto",
+      zIndex: 1000,
+      boxShadow: "-2px 0 20px rgba(0, 0, 0, 0.3)"
+    }}>
+      {commonItems.length > 0 && (
+        <div style={{ marginBottom: "20px" }}>
+          {commonItems.map((item) => (
+            <div
+              key={item}
+              onClick={() => onItemSelect(item)}
+              title={item}
+              style={{
+                padding: "10px 6px",
+                cursor: "pointer",
+                background: isSelected(item) 
+                  ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" 
+                  : "transparent",
+                borderRadius: "8px",
+                marginBottom: "6px",
+                fontSize: "11px",
+                textAlign: "center",
+                wordBreak: "break-word",
+                lineHeight: "1.3",
+                color: isSelected(item) ? "#ffffff" : "#a0a0b8",
+                fontWeight: isSelected(item) ? "600" : "400",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                transform: isSelected(item) ? "scale(1.05)" : "scale(1)",
+                boxShadow: isSelected(item) 
+                  ? "0 4px 12px rgba(102, 126, 234, 0.4)" 
+                  : "none"
+              }}
+              onMouseEnter={(e) => {
+                if (!isSelected(item)) {
+                  e.currentTarget.style.background = "rgba(102, 126, 234, 0.15)";
+                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.transform = "scale(1.02)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isSelected(item)) {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#a0a0b8";
+                  e.currentTarget.style.transform = "scale(1)";
+                }
+              }}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {hostItems.length > 0 && (
+        <div style={{ 
+          borderTop: "1px solid rgba(160, 160, 184, 0.2)", 
+          paddingTop: "15px",
+          marginTop: "10px"
+        }}>
+          {hostItems.map((item) => (
+            <div
+              key={item}
+              onClick={() => onItemSelect(item)}
+              title={item}
+              style={{
+                padding: "10px 6px",
+                cursor: "pointer",
+                background: isSelected(item) 
+                  ? "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" 
+                  : "transparent",
+                borderRadius: "8px",
+                marginBottom: "6px",
+                fontSize: "11px",
+                textAlign: "center",
+                wordBreak: "break-word",
+                lineHeight: "1.3",
+                color: isSelected(item) ? "#ffffff" : "#a0a0b8",
+                fontWeight: isSelected(item) ? "600" : "400",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                transform: isSelected(item) ? "scale(1.05)" : "scale(1)",
+                boxShadow: isSelected(item) 
+                  ? "0 4px 12px rgba(245, 87, 108, 0.4)" 
+                  : "none"
+              }}
+              onMouseEnter={(e) => {
+                if (!isSelected(item)) {
+                  e.currentTarget.style.background = "rgba(245, 87, 108, 0.15)";
+                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.transform = "scale(1.02)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isSelected(item)) {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#a0a0b8";
+                  e.currentTarget.style.transform = "scale(1)";
+                }
+              }}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Sidebar;
