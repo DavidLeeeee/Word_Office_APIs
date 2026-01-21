@@ -35,7 +35,11 @@ const Editor: React.FC = () => {
         body.load("text");
         await context.sync();
         
-        setResult(`문서 전체 텍스트 (${body.text.length}자):\n${body.text.substring(0, 200)}${body.text.length > 200 ? "..." : ""}\n\n과정:\n1. context.document.body로 문서 본문 가져오기\n2. body.load("text")로 텍스트 속성 로드\n3. context.sync()로 동기화`);
+        // 문서 전체를 실제로 선택 (드래그된 것처럼 표시)
+        body.select();
+        await context.sync();
+        
+        setResult(`문서 전체 텍스트 (${body.text.length}자):\n${body.text.substring(0, 200)}${body.text.length > 200 ? "..." : ""}\n\n과정:\n1. context.document.body로 문서 본문 가져오기\n2. body.load("text")로 텍스트 속성 로드\n3. body.select()로 문서 전체 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -63,8 +67,12 @@ const Editor: React.FC = () => {
           return;
         }
         
+        // 첫 번째 검색 결과를 실제로 선택 (드래그된 것처럼 표시)
+        searchResults.items[0].select();
+        await context.sync();
+        
         const foundTexts = searchResults.items.map((item, idx) => `${idx + 1}. "${item.text}"`).join("\n");
-        setResult(`찾은 텍스트 (${searchResults.items.length}개):\n${foundTexts}\n\n과정:\n1. context.document.body.search("${searchText}")로 검색\n2. searchResults.load("text")로 텍스트 속성 로드\n3. context.sync()로 동기화`);
+        setResult(`찾은 텍스트 (${searchResults.items.length}개):\n${foundTexts}\n\n과정:\n1. context.document.body.search("${searchText}")로 검색\n2. searchResults.load("text")로 텍스트 속성 로드\n3. searchResults.items[0].select()로 첫 번째 결과 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -84,7 +92,12 @@ const Editor: React.FC = () => {
           return;
         }
         
-        setResult(`첫 번째 단락: "${paragraphs.items[0].text}"\n\n과정:\n1. context.document.body.paragraphs로 모든 단락 가져오기\n2. paragraphs.load("text")로 텍스트 속성 로드\n3. context.sync()로 동기화\n4. paragraphs.items[0]으로 첫 번째 단락 접근`);
+        // 첫 번째 단락을 실제로 선택 (드래그된 것처럼 표시)
+        const firstParagraph = paragraphs.items[0];
+        firstParagraph.select();
+        await context.sync();
+        
+        setResult(`첫 번째 단락: "${firstParagraph.text}"\n\n과정:\n1. context.document.body.paragraphs로 모든 단락 가져오기\n2. paragraphs.load("text")로 텍스트 속성 로드\n3. paragraph.select()로 단락 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -111,7 +124,11 @@ const Editor: React.FC = () => {
         simpleRange.load("text");
         await context.sync();
         
-        setResult(`Range로 선택한 텍스트: "${simpleRange.text.substring(0, 50)}${simpleRange.text.length > 50 ? "..." : ""}"\n\n과정:\n1. paragraph.getRange()로 Range 객체 생성\n2. range.load("text")로 텍스트 속성 로드\n3. context.sync()로 동기화`);
+        // Range를 실제로 선택 (드래그된 것처럼 표시)
+        simpleRange.select();
+        await context.sync();
+        
+        setResult(`Range로 선택한 텍스트: "${simpleRange.text.substring(0, 50)}${simpleRange.text.length > 50 ? "..." : ""}"\n\n과정:\n1. paragraph.getRange()로 Range 객체 생성\n2. range.load("text")로 텍스트 속성 로드\n3. range.select()로 Range 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -135,7 +152,11 @@ const Editor: React.FC = () => {
         firstSection.body.load("text");
         await context.sync();
         
-        setResult(`첫 번째 섹션 텍스트: "${firstSection.body.text.substring(0, 100)}${firstSection.body.text.length > 100 ? "..." : ""}"\n\n과정:\n1. context.document.sections로 모든 섹션 가져오기\n2. section.body.load("text")로 본문 텍스트 로드\n3. context.sync()로 동기화`);
+        // 섹션 본문을 실제로 선택 (드래그된 것처럼 표시)
+        firstSection.body.select();
+        await context.sync();
+        
+        setResult(`첫 번째 섹션 텍스트: "${firstSection.body.text.substring(0, 100)}${firstSection.body.text.length > 100 ? "..." : ""}"\n\n과정:\n1. context.document.sections로 모든 섹션 가져오기\n2. section.body.load("text")로 본문 텍스트 로드\n3. section.body.select()로 섹션 본문 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -156,7 +177,18 @@ const Editor: React.FC = () => {
         }
         
         const firstBookmark = bookmarks.items[0];
-        setResult(`북마크 이름: "${firstBookmark.name}"\n\n과정:\n1. context.document.bookmarks로 모든 북마크 가져오기\n2. bookmarks.load('name')로 이름 속성 로드\n3. context.sync()로 동기화\n\n참고: 북마크의 실제 텍스트 내용은 북마크 이름으로 검색하여 접근할 수 있습니다.`);
+        firstBookmark.load("range");
+        await context.sync();
+        
+        const bookmarkRange = firstBookmark.range;
+        bookmarkRange.load("text");
+        await context.sync();
+        
+        // 북마크 범위를 실제로 선택 (드래그된 것처럼 표시)
+        bookmarkRange.select();
+        await context.sync();
+        
+        setResult(`북마크 "${firstBookmark.name}"의 텍스트: "${bookmarkRange.text}"\n\n과정:\n1. context.document.bookmarks로 모든 북마크 가져오기\n2. bookmark.load("range")로 Range 객체 로드\n3. bookmark.range.select()로 북마크 범위 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -180,8 +212,13 @@ const Editor: React.FC = () => {
         firstControl.load("text,title");
         await context.sync();
         
+        // 콘텐츠 컨트롤을 실제로 선택 (드래그된 것처럼 표시)
+        const controlRange = firstControl.getRange();
+        controlRange.select();
+        await context.sync();
+        
         const controlTitle = firstControl.title || "(제목 없음)";
-        setResult(`콘텐츠 컨트롤 "${controlTitle}"의 텍스트: "${firstControl.text}"\n\n과정:\n1. context.document.contentControls로 모든 콘텐츠 컨트롤 가져오기\n2. contentControl.load("text,title")로 텍스트와 제목 속성 로드\n3. context.sync()로 동기화`);
+        setResult(`콘텐츠 컨트롤 "${controlTitle}"의 텍스트: "${firstControl.text}"\n\n과정:\n1. context.document.contentControls로 모든 콘텐츠 컨트롤 가져오기\n2. contentControl.load("text,title")로 텍스트와 제목 속성 로드\n3. contentControl.getRange().select()로 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -207,7 +244,11 @@ const Editor: React.FC = () => {
         lastParagraph.load("text");
         await context.sync();
         
-        setResult(`마지막 단락 (인덱스 ${lastIndex}): "${lastParagraph.text}"\n\n과정:\n1. context.document.body.paragraphs로 모든 단락 가져오기\n2. paragraphs.items[index]로 특정 인덱스의 단락 접근\n3. paragraph.load("text")로 텍스트 속성 로드\n4. context.sync()로 동기화`);
+        // 마지막 단락을 실제로 선택 (드래그된 것처럼 표시)
+        lastParagraph.select();
+        await context.sync();
+        
+        setResult(`마지막 단락 (인덱스 ${lastIndex}): "${lastParagraph.text}"\n\n과정:\n1. context.document.body.paragraphs로 모든 단락 가져오기\n2. paragraphs.items[index]로 특정 인덱스의 단락 접근\n3. paragraph.select()로 단락 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -236,7 +277,21 @@ const Editor: React.FC = () => {
           return;
         }
         
-        setResult(`첫 번째 문장: "${sentences[0]}"\n\n과정:\n1. paragraph.text로 텍스트 가져오기\n2. 텍스트를 문장 단위로 분리 (정규식 사용)\n3. 첫 번째 문장 선택\n\n참고: Word API에는 직접적인 sentences 속성이 없어 텍스트를 파싱하여 사용`);
+        // 첫 번째 문장을 검색하여 선택
+        const firstSentenceText = sentences[0];
+        const searchResults = firstParagraph.search(firstSentenceText, {
+          matchCase: false,
+          matchWholeWord: false,
+        });
+        searchResults.load("text");
+        await context.sync();
+        
+        if (searchResults.items.length > 0) {
+          searchResults.items[0].select();
+          await context.sync();
+        }
+        
+        setResult(`첫 번째 문장: "${firstSentenceText}"\n\n과정:\n1. paragraph.text로 텍스트 가져오기\n2. 텍스트를 문장 단위로 분리 (정규식 사용)\n3. paragraph.search()로 문장 검색 후 select()로 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화\n\n참고: Word API에는 직접적인 sentences 속성이 없어 텍스트를 파싱하여 사용`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -265,7 +320,21 @@ const Editor: React.FC = () => {
           return;
         }
         
-        setResult(`첫 번째 단어: "${words[0]}"\n\n과정:\n1. paragraph.text로 텍스트 가져오기\n2. 텍스트를 단어 단위로 분리 (공백 기준)\n3. 첫 번째 단어 선택\n\n참고: Word API에는 직접적인 words 속성이 없어 텍스트를 파싱하여 사용`);
+        // 첫 번째 단어를 검색하여 선택
+        const firstWordText = words[0].replace(/[.,!?;:]/g, "");
+        const searchResults = firstParagraph.search(firstWordText, {
+          matchCase: false,
+          matchWholeWord: true,
+        });
+        searchResults.load("text");
+        await context.sync();
+        
+        if (searchResults.items.length > 0) {
+          searchResults.items[0].select();
+          await context.sync();
+        }
+        
+        setResult(`첫 번째 단어: "${words[0]}"\n\n과정:\n1. paragraph.text로 텍스트 가져오기\n2. 텍스트를 단어 단위로 분리 (공백 기준)\n3. paragraph.search()로 단어 검색 후 select()로 선택 (드래그된 것처럼 표시)\n4. context.sync()로 동기화\n\n참고: Word API에는 직접적인 words 속성이 없어 텍스트를 파싱하여 사용`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -300,8 +369,13 @@ const Editor: React.FC = () => {
         });
         await context.sync();
         
+        // 첫 번째 셀의 본문을 실제로 선택 (드래그된 것처럼 표시)
+        const firstCell = cells.items[0];
+        firstCell.body.select();
+        await context.sync();
+        
         const tableText = cellTexts.join(" | ");
-        setResult(`첫 번째 표의 첫 번째 행: ${tableText}\n\n과정:\n1. context.document.body.tables로 모든 표 가져오기\n2. table.rows.getFirst()로 첫 번째 행 가져오기\n3. row.cells로 셀들 가져오기\n4. cell.body.load("text")로 텍스트 로드\n5. context.sync()로 동기화`);
+        setResult(`첫 번째 표의 첫 번째 행: ${tableText}\n\n과정:\n1. context.document.body.tables로 모든 표 가져오기\n2. table.rows.getFirst()로 첫 번째 행 가져오기\n3. row.cells로 셀들 가져오기\n4. cell.body.load("text")로 텍스트 로드\n5. cell.body.select()로 첫 번째 셀 선택 (드래그된 것처럼 표시)\n6. context.sync()로 동기화`);
       });
     } catch (error) {
       setResult(`오류: ${error instanceof Error ? error.message : "알 수 없는 오류"}`);
@@ -332,7 +406,7 @@ const Editor: React.FC = () => {
           
           targetRange = selection;
         } else if (selectionMethod === "search") {
-          // 검색된 첫 번째 텍스트 대치
+          // 검색된 모든 텍스트 대치
           if (!searchText.trim()) {
             setResult("검색할 텍스트를 입력해주세요.");
             return;
@@ -350,7 +424,15 @@ const Editor: React.FC = () => {
             return;
           }
           
-          targetRange = searchResults.items[0];
+          // 역순으로 처리하여 인덱스 변경 문제 방지
+          const replacedCount = searchResults.items.length;
+          for (let i = searchResults.items.length - 1; i >= 0; i--) {
+            searchResults.items[i].insertText(replaceTextValue, Word.InsertLocation.replace);
+          }
+          await context.sync();
+          
+          setResult(`텍스트 대치 완료! (${replacedCount}개)\n"${searchText}" → "${replaceTextValue}"`);
+          return;
         } else {
           // 문서 전체는 대치하지 않음 (너무 위험)
           setResult("문서 전체 대치는 위험하므로 지원하지 않습니다.");

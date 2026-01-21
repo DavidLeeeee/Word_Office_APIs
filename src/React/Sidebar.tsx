@@ -10,6 +10,7 @@ export enum WordSidebarType {
   Audit = "검사",
   Comment = "주석",
   Edit = "수정",
+  Template = "템플릿",
 }
 
 // Excel 사이드바 항목

@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import Sidebar, { SidebarType, WordSidebarType, ExcelSidebarType } from "../Sidebar";
 import Chat from "../Common/Page/Chats/Chat";
 import Editor from "./Editor/Editor";
+import Templates_builder from "./Templates_builder/Templates_builder";
 
 const App: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<SidebarType | WordSidebarType | null>(null);
 
   const handleItemSelect = (item: SidebarType | WordSidebarType | ExcelSidebarType) => {
-    if (item === SidebarType.Chat || item === WordSidebarType.Audit || item === WordSidebarType.Comment || item === WordSidebarType.Edit) {
+    if (item === SidebarType.Chat || item === WordSidebarType.Audit || item === WordSidebarType.Comment || item === WordSidebarType.Edit || item === WordSidebarType.Template) {
       setSelectedItem(item);
     }
   };
@@ -24,6 +25,8 @@ const App: React.FC = () => {
         return <div style={{ padding: "20px" }}><h3>Word 주석 기능</h3><p>Word 전용 주석 관련 기능이 여기에 표시됩니다.</p></div>;
       case WordSidebarType.Edit:
         return <Editor />;
+      case WordSidebarType.Template:
+        return <Templates_builder />;
       default:
         return <div style={{ padding: "20px" }}>알 수 없는 항목입니다.</div>;
     }
@@ -36,7 +39,7 @@ const App: React.FC = () => {
       </div>
       <Sidebar
         commonItems={[SidebarType.Chat]}
-        hostItems={[WordSidebarType.Edit, WordSidebarType.Audit, WordSidebarType.Comment]}
+        hostItems={[WordSidebarType.Edit, WordSidebarType.Template, WordSidebarType.Audit, WordSidebarType.Comment]}
         onItemSelect={handleItemSelect}
         selectedItem={selectedItem}
       />
