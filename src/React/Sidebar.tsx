@@ -14,6 +14,7 @@ export enum WordSidebarType {
   Contents = "콘텐츠",
   Shapes = "도형",
   Metadata = "메타데이터",
+  Format = "서식",
 }
 
 // Excel 사이드바 항목
