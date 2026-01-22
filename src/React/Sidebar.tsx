@@ -20,6 +20,19 @@ export enum WordSidebarType {
 
 // Excel 사이드바 항목
 export enum ExcelSidebarType {
+  Workbook = "워크북",
+  Worksheet = "워크시트",
+  Range = "범위",
+  Format = "서식",
+  Table = "테이블",
+  Chart = "차트",
+  Pivot = "피벗",
+  Validation = "검증",
+  Slicer = "슬라이서",
+  Shapes = "도형",
+  Settings = "설정",
+  Queries = "쿼리",
+  Functions = "함수",
   Audit = "검사",
   Comment = "주석",
 }
