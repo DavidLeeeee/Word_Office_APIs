@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import Sidebar, { SidebarType, WordSidebarType, ExcelSidebarType } from "../Sidebar";
 import Chat from "../Common/Page/Chats/Chat";
+import Workbook from "./Workbook/Workbook";
+import Worksheet from "./Worksheet/Worksheet";
+import Range from "./Range/Range";
+import Format from "./Format/Format";
+import Table from "./Table/Table";
+import Chart from "./Chart/Chart";
+import Pivot from "./Pivot/Pivot";
+import Validation from "./Validation/Validation";
 import Selection from "./Selection/Selection";
 
 const App: React.FC = () => {
@@ -31,22 +39,22 @@ const App: React.FC = () => {
     switch (selectedItem) {
       case SidebarType.Chat:
         return <Chat />;
-      case ExcelSidebarType.Range:
-        return <Selection />;
       case ExcelSidebarType.Workbook:
-        return <div style={{ padding: "20px" }}><h3>Excel 워크북</h3><p>워크북 관련 기능이 여기에 표시됩니다.</p></div>;
+        return <Workbook />;
       case ExcelSidebarType.Worksheet:
-        return <div style={{ padding: "20px" }}><h3>Excel 워크시트</h3><p>워크시트 관련 기능이 여기에 표시됩니다.</p></div>;
+        return <Worksheet />;
+      case ExcelSidebarType.Range:
+        return <Range />;
       case ExcelSidebarType.Format:
-        return <div style={{ padding: "20px" }}><h3>Excel 서식/디자인</h3><p>셀 서식 및 디자인 기능이 여기에 표시됩니다.</p></div>;
+        return <Format />;
       case ExcelSidebarType.Table:
-        return <div style={{ padding: "20px" }}><h3>Excel 테이블</h3><p>Excel 테이블 관련 기능이 여기에 표시됩니다.</p></div>;
+        return <Table />;
       case ExcelSidebarType.Chart:
-        return <div style={{ padding: "20px" }}><h3>Excel 차트</h3><p>차트 생성 및 시각화 기능이 여기에 표시됩니다.</p></div>;
+        return <Chart />;
       case ExcelSidebarType.Pivot:
-        return <div style={{ padding: "20px" }}><h3>Excel 피벗</h3><p>피벗 테이블 요약/집계 자동화 기능이 여기에 표시됩니다.</p></div>;
+        return <Pivot />;
       case ExcelSidebarType.Validation:
-        return <div style={{ padding: "20px" }}><h3>Excel 데이터 검증</h3><p>데이터 검증 및 규칙 강제 기능이 여기에 표시됩니다.</p></div>;
+        return <Validation />;
       case ExcelSidebarType.Slicer:
         return <div style={{ padding: "20px" }}><h3>Excel 슬라이서</h3><p>슬라이서 필터 UX 구성 기능이 여기에 표시됩니다.</p></div>;
       case ExcelSidebarType.Shapes:
