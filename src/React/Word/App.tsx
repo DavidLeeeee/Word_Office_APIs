@@ -8,12 +8,13 @@ import Shapes from "./Shapes/Shapes";
 import Comment from "./Comment/Comment";
 import Metadata from "./Metadata/Metadata";
 import Format from "./Format/Format";
+import Events from "./Events/Events";
 
 const App: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<SidebarType | WordSidebarType | null>(null);
 
   const handleItemSelect = (item: SidebarType | WordSidebarType | ExcelSidebarType) => {
-    if (item === SidebarType.Chat || item === WordSidebarType.Audit || item === WordSidebarType.Comment || item === WordSidebarType.Edit || item === WordSidebarType.Template || item === WordSidebarType.Contents || item === WordSidebarType.Shapes || item === WordSidebarType.Metadata || item === WordSidebarType.Format) {
+    if (item === SidebarType.Chat || item === WordSidebarType.Audit || item === WordSidebarType.Comment || item === WordSidebarType.Edit || item === WordSidebarType.Template || item === WordSidebarType.Contents || item === WordSidebarType.Shapes || item === WordSidebarType.Metadata || item === WordSidebarType.Format || item === WordSidebarType.Events) {
       setSelectedItem(item);
     }
   };
@@ -40,6 +41,8 @@ const App: React.FC = () => {
         return <Metadata />;
       case WordSidebarType.Format:
         return <Format />;
+      case WordSidebarType.Events:
+        return <Events />;
       default:
         return <div style={{ padding: "20px" }}>알 수 없는 항목입니다.</div>;
     }
@@ -52,7 +55,7 @@ const App: React.FC = () => {
       </div>
       <Sidebar
         commonItems={[SidebarType.Chat]}
-        hostItems={[WordSidebarType.Edit, WordSidebarType.Template, WordSidebarType.Contents, WordSidebarType.Shapes, WordSidebarType.Audit, WordSidebarType.Comment, WordSidebarType.Metadata, WordSidebarType.Format]}
+        hostItems={[WordSidebarType.Edit, WordSidebarType.Template, WordSidebarType.Contents, WordSidebarType.Shapes, WordSidebarType.Audit, WordSidebarType.Comment, WordSidebarType.Metadata, WordSidebarType.Format, WordSidebarType.Events]}
         onItemSelect={handleItemSelect}
         selectedItem={selectedItem}
       />
