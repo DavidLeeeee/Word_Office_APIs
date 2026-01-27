@@ -9,6 +9,13 @@ import Table from "./Table/Table";
 import Chart from "./Chart/Chart";
 import Pivot from "./Pivot/Pivot";
 import Validation from "./Validation/Validation";
+import Slicer from "./Slicer/Slicer";
+import Shapes from "./Shapes/Shapes";
+import Settings from "./Settings/Settings";
+import Queries from "./Queries/Queries";
+import Functions from "./Functions/Functions";
+import Audit from "./Audit/Audit";
+import Comment from "./Comment/Comment";
 import Selection from "./Selection/Selection";
 
 const App: React.FC = () => {
@@ -56,19 +63,19 @@ const App: React.FC = () => {
       case ExcelSidebarType.Validation:
         return <Validation />;
       case ExcelSidebarType.Slicer:
-        return <div style={{ padding: "20px" }}><h3>Excel 슬라이서</h3><p>슬라이서 필터 UX 구성 기능이 여기에 표시됩니다.</p></div>;
+        return <Slicer />;
       case ExcelSidebarType.Shapes:
-        return <div style={{ padding: "20px" }}><h3>Excel 도형</h3><p>도형 및 시각 요소 기능이 여기에 표시됩니다.</p></div>;
+        return <Shapes />;
       case ExcelSidebarType.Settings:
-        return <div style={{ padding: "20px" }}><h3>Excel 설정</h3><p>파일 단위 애드인 상태 저장 기능이 여기에 표시됩니다.</p></div>;
+        return <Settings />;
       case ExcelSidebarType.Queries:
-        return <div style={{ padding: "20px" }}><h3>Excel 쿼리</h3><p>워크북의 쿼리 컬렉션 기능이 여기에 표시됩니다.</p></div>;
+        return <Queries />;
       case ExcelSidebarType.Functions:
-        return <div style={{ padding: "20px" }}><h3>Excel 함수</h3><p>내장 함수 호출/연산 보조 기능이 여기에 표시됩니다.</p></div>;
+        return <Functions />;
       case ExcelSidebarType.Audit:
-        return <div style={{ padding: "20px" }}><h3>Excel 검사 기능</h3><p>Excel 전용 검사 관련 기능이 여기에 표시됩니다.</p></div>;
+        return <Audit />;
       case ExcelSidebarType.Comment:
-        return <div style={{ padding: "20px" }}><h3>Excel 주석 기능</h3><p>Excel 전용 주석 관련 기능이 여기에 표시됩니다.</p></div>;
+        return <Comment />;
       default:
         return <div style={{ padding: "20px" }}>알 수 없는 항목입니다.</div>;
     }
